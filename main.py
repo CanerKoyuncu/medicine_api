@@ -17,7 +17,7 @@ load_dotenv()
 app = FastAPI()
 
 # MongoDB bağlantısı
-MONGO_URI = os.getenv("127.0.0.1:27017")
+MONGO_URI = os.getenv("127.0.0.1:27018")
 client = MongoClient(MONGO_URI)
 db = client["Hospital"]  # Veritabanı adınızı yazın
 
