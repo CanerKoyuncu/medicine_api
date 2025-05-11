@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    container_name: medicine_api
+    ports:
+      - "127.0.0.1:8001:8001"
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    networks:
+      - medicine_network
+
+  mongo:
+    image: mongo:5.0
+    container_name: medicine_mongodb
+    ports:
+      - "127.0.0.1:27018:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+    networks:
+      - medicine_network
+
+networks:
+  medicine_network:
+
+volumes:
+  mongo_data:
