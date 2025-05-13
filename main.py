@@ -53,6 +53,7 @@ async def root(websocket: WebSocket):
         data_dict = json.loads(data)
         data_dict['_id'] = uuid.uuid4().__str__()
         data_dict['timestamp'] = time()
+        print(data_dict)
         db.product.insert_one(data_dict)
 
 @app.post("/patient/", response_model=dict, status_code=status.HTTP_201_CREATED)
