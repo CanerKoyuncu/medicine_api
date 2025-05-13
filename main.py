@@ -2,20 +2,28 @@ from typing import Optional
 
 import uvicorn
 from bson import ObjectId
-from fastapi import FastAPI, status,HTTPException
+from fastapi import status,HTTPException
 from pydantic import BaseModel
 from pymongo import MongoClient
 from dotenv import load_dotenv
-import os
 import json
 import uuid
-
-from starlette.websockets import WebSocket
+from fastapi import FastAPI, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
 from time import time
 
 load_dotenv()
 
 app = FastAPI()
+
+# CORS ayarları
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 MONGO_URI = "mongodb://mongo"
 client = MongoClient(MONGO_URI)
