@@ -17,9 +17,10 @@ load_dotenv()
 
 app = FastAPI()
 
+# MongoDB bağlantısı
 MONGO_URI = "mongodb://mongo"
 client = MongoClient(MONGO_URI)
-db = client["Hospital"]
+db = client["Hospital"]  # Veritabanı adınızı yazın
 
 class Patient(BaseModel):
     name: str
