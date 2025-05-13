@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Uygulamayı çalıştır
-CMD ["uvicorn", "main:app", "--host", "127.0.0.1", "--port", "8001"]
+CMD ["python", "main.py"]
