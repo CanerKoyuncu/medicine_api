@@ -35,12 +35,12 @@ class User(BaseModel):
     password: str
 
 class HealthData(BaseModel):
-    _id: Optional[uuid.UUID]
+    _id: Optional[uuid.UUID] = None
     spo2: float
     bpm: float
     device_id: str
     is_falled: bool
-    timestamp: Optional[float]
+    timestamp: Optional[float] = None
 
 def patient_helper(patient) -> dict:
     return {
