@@ -74,7 +74,7 @@ async def create_patient(patient: Patient):
     created_patient = db.patients.find_one({"_id": new_patient.inserted_id})
     return patient_helper(created_patient)
 
-@app.get("/health_data/{product_id}/")
+@app.get("/health_data/{product_id}")
 async def get_health_data(product_id:str):
     health_data = []
     for data in db.product.find({"device_id":product_id}):
@@ -105,7 +105,7 @@ async def update_patient(patient_id: str, patient: Patient):
             return patient_helper(updated_patient)
     raise HTTPException(status_code=404, detail="Hasta bulunamadı")
 
-@app.delete("/patients/{patient_id}/")
+@app.delete("/patients/{patient_id}")
 async def delete_patient(patient_id: str):
     result = db.paitents.delete_one({"_id": ObjectId(patient_id)})
     if result.deleted_count == 1:
