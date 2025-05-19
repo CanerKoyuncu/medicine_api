@@ -36,8 +36,8 @@ class User(BaseModel):
 
 class HealthData(BaseModel):
     _id: Optional[uuid.UUID]
-    spo2: str
-    bpm: str
+    spo2: float
+    bpm: float
     device_id: str
     is_falled: bool
     timestamp: Optional[float]
