@@ -55,7 +55,7 @@ app.add_middleware(
 
 
 
-@app.websocket("/socket/")
+@app.websocket("/socket")
 async def root(websocket: WebSocket):
     await websocket.accept()
     while True:
