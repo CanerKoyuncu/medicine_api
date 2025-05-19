@@ -35,12 +35,12 @@ class User(BaseModel):
     password: str
 
 class HealthData(BaseModel):
-    _id: uuid.UUID
+    _id: Optional[uuid.UUID]
     spo2: str
     bpm: str
     device_id: str
     is_falled: bool
-    timestamp: float
+    timestamp: Optional[float]
 
 def patient_helper(patient) -> dict:
     return {
@@ -65,7 +65,6 @@ app.add_middleware(
 
 @app.post("/data")
 async def data(data:HealthData):
-
     data._id = uuid.uuid4()
     data.timestamp= time()
     db.product.insert_one(data.model_dump())
