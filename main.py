@@ -67,6 +67,7 @@ app.add_middleware(
 async def data(data:HealthData):
     data._id = uuid.uuid4()
     data.timestamp= time()
+    print(data)
     db.product.insert_one(data.model_dump())
 
 
