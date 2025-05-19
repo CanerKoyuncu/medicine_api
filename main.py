@@ -18,10 +18,9 @@ load_dotenv()
 
 app = FastAPI()
 
-# MongoDB bağlantısı
 MONGO_URI = "mongodb://mongo"
 client = MongoClient(MONGO_URI)
-db = client["Hospital"]  # Veritabanı adınızı yazın
+db = client["Hospital"]
 
 class Patient(BaseModel):
     name: str
@@ -59,7 +58,7 @@ async def root(websocket: WebSocket):
         print(data_dict)
         db.product.insert_one(data_dict)
 
-@app.post("/patient/", response_model=dict, status_code=status.HTTP_201_CREATED)
+@app.post("/patient", response_model=dict, status_code=status.HTTP_201_CREATED)
 async def create_patient(patient: Patient):
     patient_data = patient.dict()
     print(patient_data)
@@ -74,7 +73,7 @@ async def get_health_data(product_id:str):
         health_data.append(data)
     return health_data
 
-@app.get("/patients/", response_model=list[dict])
+@app.get("/patients", response_model=list[dict])
 async def read_patients():
     patients = []
     for patient in db.patients.find():
