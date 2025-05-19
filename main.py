@@ -47,13 +47,6 @@ def patient_helper(patient) -> dict:
 }
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # veya ["http://localhost:55506"]
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.websocket("/socket")
 async def root(websocket: WebSocket):
