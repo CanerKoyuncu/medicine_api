@@ -56,8 +56,7 @@ app.add_middleware(
 
 
 @app.post("/data")
-async def data(data: dict):
-
+async def data(data):
     data_dict = json.loads(data)
     data_dict['_id'] = uuid.uuid4().__str__()
     data_dict['timestamp'] = time()
