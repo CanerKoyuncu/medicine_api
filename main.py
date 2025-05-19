@@ -45,6 +45,14 @@ def patient_helper(patient) -> dict:
         "deviceId": patient["deviceId"]
 }
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Gerekirse spesifik domainleri yazın
+    allow_credentials=True,
+    allow_methods=["*"],  # OPTIONS dahil tüm yöntemlere izin verir
+    allow_headers=["*"],
+)
+
 
 
 @app.websocket("/socket")
