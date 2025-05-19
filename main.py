@@ -34,6 +34,14 @@ class User(BaseModel):
     username: str
     password: str
 
+class HealthData(BaseModel):
+    _id: uuid.UUID
+    spo2: str
+    bpm: str
+    device_id: str
+    is_falled: bool
+    timestamp: float
+
 def patient_helper(patient) -> dict:
     return {
         "id": str(patient["_id"]),
@@ -45,6 +53,8 @@ def patient_helper(patient) -> dict:
         "deviceId": patient["deviceId"]
 }
 
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Gerekirse spesifik domainleri yazın
@@ -53,14 +63,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
 @app.post("/data")
-async def data(data):
-    data_dict = json.loads(data)
-    data_dict['_id'] = uuid.uuid4().__str__()
-    data_dict['timestamp'] = time()
-    db.product.insert_one(data_dict)
+async def data(data:HealthData):
+
+    data._id = uuid.uuid4()
+    data.timestamp= time()
+    db.product.insert_one(data.model_dump())
 
 
 @app.post("/patient", response_model=dict, status_code=status.HTTP_201_CREATED)
