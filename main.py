@@ -41,7 +41,7 @@ class HealthData(BaseModel):
 
 
 def health_data_helper(HealthData):
-    return {"_id" : HealthData["_id"],
+    return {"_id" : str(HealthData["_id"]),
             "spo2" : HealthData["spo2"],
             "bpm" : HealthData["bpm"],
             "device_id" : HealthData["device_id"],
