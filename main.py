@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 
 import uvicorn
@@ -6,12 +7,9 @@ from fastapi import FastAPI, status,HTTPException
 from pydantic import BaseModel
 from pymongo import MongoClient
 from dotenv import load_dotenv
-import os
-import json
 import uuid
 
 from starlette.middleware.cors import CORSMiddleware
-from starlette.websockets import WebSocket
 from time import time
 
 load_dotenv()
@@ -34,13 +32,7 @@ class User(BaseModel):
     username: str
     password: str
 
-class HealthData(BaseModel):
-    _id: Optional[uuid.UUID] = None
-    spo2: float
-    bpm: float
-    device_id: str
-    is_falled: bool
-    timestamp: Optional[float] = None
+
 
 def patient_helper(patient) -> dict:
     return {
@@ -64,7 +56,8 @@ app.add_middleware(
 )
 
 @app.post("/data")
-async def data(data:HealthData):
+async def data(data):
+    data = json.loads(data)
     data._id = uuid.uuid4()
     data.timestamp= time()
     print(data)
