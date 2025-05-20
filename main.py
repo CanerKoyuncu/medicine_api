@@ -39,17 +39,6 @@ class HealthData(BaseModel):
     is_falled: bool
     timestamp: Optional[float] = None
 
-
-def health_data_helper(HealthData) -> dict:
-    return {
-        "_id": None,
-        "spo2": HealthData["spo2"],
-        "bpm": HealthData["bpm"],
-        "device_id": HealthData["device_id"],
-        "is_falled": HealthData["is_falled"],
-        "timestamp": HealthData["timestamp"]
-    }
-
 def patient_helper(patient) -> dict:
     return {
         "id": str(patient["_id"]),
@@ -89,9 +78,8 @@ async def create_patient(patient: Patient):
 
 @app.get("/health_data/{product_id}")
 async def get_health_data(product_id:str):
-    health_data = []
-    for data in db.product.find({"device_id":product_id}):
-        health_data.append(data.dict())
+    health_data = db.product.find({"device_id":product_id})
+
     return health_data
 
 @app.get("/patients", response_model=list[dict])
