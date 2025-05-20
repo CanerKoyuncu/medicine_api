@@ -75,8 +75,7 @@ async def create_patient(patient: Patient):
 @app.get("/health_data/{product_id}")
 async def get_health_data(product_id:str):
     health_data = []
-    for data in db.product.find({"device_id":product_id}):
-        health_data.append(data)
+    health_data =  db.product.find({"device_id":product_id})
     return health_data
 
 @app.get("/patients", response_model=list[dict])
