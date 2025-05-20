@@ -1,4 +1,3 @@
-import json
 from typing import Optional
 
 import uvicorn
@@ -32,7 +31,24 @@ class User(BaseModel):
     username: str
     password: str
 
+class HealthData(BaseModel):
+    _id: Optional[uuid.UUID] = None
+    spo2: float
+    bpm: float
+    device_id: str
+    is_falled: bool
+    timestamp: Optional[float] = None
 
+
+def health_data_helper(HealthData) -> dict:
+    return {
+        "_id": None,
+        "spo2": HealthData["spo2"],
+        "bpm": HealthData["bpm"],
+        "device_id": HealthData["device_id"],
+        "is_falled": HealthData["is_falled"],
+        "timestamp": HealthData["timestamp"]
+    }
 
 def patient_helper(patient) -> dict:
     return {
@@ -56,8 +72,7 @@ app.add_middleware(
 )
 
 @app.post("/data")
-async def data(data):
-    data = json.loads(data)
+async def data(data:HealthData):
     data._id = uuid.uuid4()
     data.timestamp= time()
     print(data)
@@ -75,7 +90,8 @@ async def create_patient(patient: Patient):
 @app.get("/health_data/{product_id}")
 async def get_health_data(product_id:str):
     health_data = []
-    health_data =  db.product.find({"device_id":product_id})
+    for data in db.product.find({"device_id":product_id}):
+        health_data.append(data.dict())
     return health_data
 
 @app.get("/patients", response_model=list[dict])
