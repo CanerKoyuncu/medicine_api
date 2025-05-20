@@ -39,6 +39,16 @@ class HealthData(BaseModel):
     is_falled: bool
     timestamp: Optional[float] = None
 
+
+def health_data_helper(HealthData):
+    return {"_id" : HealthData["_id"],
+            "spo2" : HealthData["spo2"],
+            "bpm" : HealthData["bpm"],
+            "device_id" : HealthData["device_id"],
+            "is_falled" : HealthData["is_falled"],
+            "timestamp" : HealthData["timestamp"]
+    }
+
 def patient_helper(patient) -> dict:
     return {
         "id": str(patient["_id"]),
@@ -64,7 +74,7 @@ app.add_middleware(
 async def data(data:HealthData):
     data._id = uuid.uuid4()
     data.timestamp= time()
-    print(data)
+
     db.product.insert_one(data.model_dump())
 
 
