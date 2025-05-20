@@ -74,9 +74,7 @@ app.add_middleware(
 async def data(data:HealthData):
     data._id = uuid.uuid4()
     data.timestamp= time()
-
     db.product.insert_one(data.model_dump())
-
 
 @app.post("/patient", response_model=dict, status_code=status.HTTP_201_CREATED)
 async def create_patient(patient: Patient):
@@ -88,8 +86,10 @@ async def create_patient(patient: Patient):
 
 @app.get("/health_data/{product_id}")
 async def get_health_data(product_id:str):
-    health_data = db.product.find({"device_id":product_id})
-    print(health_data)
+    health_data = []
+    result = db.product.find({"device_id":product_id})
+    for data in result:
+        health_data.append(health_data_helper(data))
     return health_data
 
 @app.get("/patients", response_model=list[dict])
